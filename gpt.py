@@ -49,6 +49,22 @@ def get_gpt3_response(context, user_task, user_query):
         print("Error getting response from GPT-3:", e)
         return None
 
+def save_conversation(filename):
+    """
+    Function to save conversation history to a file.
+    
+    Args:
+        filename (str): Name of the file to save the conversation.
+    """
+    try:
+        with open(filename, "w") as file:
+            for i in range(0, len(conversation), 2):
+                file.write(f"User: {conversation[i]}\n")
+                file.write(f"GPT-3: {conversation[i+1]}\n")
+        print("Conversation saved successfully.")
+    except Exception as e:
+        print("Error saving conversation:", e)
+
 def main():
     """
     Main function to run the conversational interface.
@@ -62,12 +78,16 @@ def main():
                 # Accept user input
                 context = input("Conversation context: ")
                 user_task = input("User task: ")
-                user_query = input("User query ('q' to exit): ")
+                user_query = input("User query ('q' to exit, 's' to save conversation): ")
 
                 # Exit loop if user enters 'q'
                 if user_query.lower() == 'q':
                     print("Exiting program...")
                     break
+                elif user_query.lower() == 's':
+                    filename = input("Enter filename to save conversation: ")
+                    save_conversation(filename)
+                    continue
 
                 # Retrieve previous user query if the user presses the up arrow key
                 if user_query == "\033[A" and len(conversation) > 0:
