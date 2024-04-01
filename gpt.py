@@ -5,7 +5,7 @@ api_key = "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"
 openai.api_key = api_key
 
 def obtener_respuesta_gpt3(context, usertask, userquery):
-    try:
+    try:.
         # Crear la solicitud para el API de OpenAI
         solicitud = {
             "model": "gpt-3.5-turbo-0125",
