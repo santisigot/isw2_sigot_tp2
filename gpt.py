@@ -1,11 +1,15 @@
 import openai
+import readline  # Para habilitar la funcionalidad de cursor Up
 
 # Configurar tu clave de API de OpenAI
 api_key = "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"
 openai.api_key = api_key
 
+# Variable global para almacenar la última consulta realizada
+ultima_consulta = ""
+
 def obtener_respuesta_gpt3(context, usertask, userquery):
-    try:.
+    try:
         # Crear la solicitud para el API de OpenAI
         solicitud = {
             "model": "gpt-3.5-turbo-0125",
@@ -36,7 +40,14 @@ def main():
             # Aceptar consulta del usuario
             context = input("Contexto de la conversación: ")
             usertask = input("Tarea del usuario: ")
+
+            # Usar readline para habilitar la funcionalidad de cursor Up
             userquery = input("Consulta del usuario ('q' para salir): ")
+            if userquery == "\033[A":  # Tecla "cursor Up"
+                userquery = ultima_consulta
+                print("Consulta del usuario (recuperada):", userquery)
+            else:
+                ultima_consulta = userquery
 
             # Salir si el usuario ingresa 'q'
             if userquery.lower() == 'q':
