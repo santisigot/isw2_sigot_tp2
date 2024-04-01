@@ -1,9 +1,9 @@
-import openai
 import sys
+import openai
 
 # Set your OpenAI API key
-api_key = "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"
-openai.api_key = api_key
+API_KEY = "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"
+openai.api_key = API_KEY
 
 # Variable to store conversation history
 conversation = []
@@ -45,11 +45,14 @@ def get_gpt3_response(context, user_task, user_query):
 
         # Return response content
         return response.choices[0].message.content
-    except Exception as e:
+    except openai.error.APIError as e:
         print("Error getting response from GPT-3:", e)
         return None
 
 def main():
+    """
+    Main function to run the conversational interface.
+    """
     # Check if conversation mode is activated
     if "--conversation" in sys.argv:
         print("Conversation mode activated.")
@@ -86,6 +89,9 @@ def main():
                         print("Unable to get a response.")
                 else:
                     print("User query is empty. Please try again.")
+            except KeyboardInterrupt:
+                print("\nExiting program...")
+                break
             except Exception as e:
                 print("Error executing the program:", e)
     else:
